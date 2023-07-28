@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <nav>
+      <div class="nav__links">
+        <a href="">ABOUT</a>
+        <a href="">WORK</a>
+        <a href="">CONTACT</a>
+      </div>
+    </nav>
+    <section>
+      <h1>Scroll to begin your journey.</h1>
+    </section>
+    <section>
+      <h2 class="reveal-type">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+      </h2>
+    </section>
+    <section>
+      <h2 class="reveal-type">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam iusto recusandae facere rerum non veritatis accusamus minus quae, ipsum beatae officiis dolores labore sed, dicta voluptate voluptatibus consectetur libero optio provident odio harum voluptas est exercitationem architecto! Tempore, eveniet earum esse rem ab vitae, repudiandae quod modi unde, facilis nulla!
+      </h2>
+    </section>
+    <section>
+      <h2 class="reveal-type">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+      </h2>
+    </section>
+
+    <script src="https://unpkg.com/split-type"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha384-d+vyQ0dYcymoP8ndq2hW7FGC50nqGdXUEgoOUGxbbkAJwZqL7h+jKN0GGgn9hFDS" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" integrity="sha384-poC0r6usQOX2Ayt/VGA+t81H6V3iN9L+Irz9iO8o+s0X20tLpzc9DOOtnKxhaQSE" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+
+    <script>
+      // SMOOTH SCROLL LENIS
+      const lenis = new Lenis();
+
+      lenis.on("scroll", (e) => {
+        console.log(e);
+      });
+
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+
+      requestAnimationFrame(raf);
+
+      // GSAP
+      gsap.registerPlugin(ScrollTrigger);
+      console.log(ScrollTrigger)
+
+      const splitTypes = document.querySelectorAll("h2");
+
+      splitTypes.forEach((char, i) => {
+        const text = new SplitType(char, { types: "chars" });
+        gsap.from(text.chars, {
+            scrollTrigger: {
+                trigger: char,
+                start: "top 80%",
+                end: "top 10%",
+                scrub: true,
+                markers: false,
+            },
+            opacity: 0.1,
+            stagger: 0.1
+        })
+
+      });
+
+
+      let elements = document.querySelectorAll("a");
+      elements.forEach(el => {
+        // On stock le contenu des elements dans la variable innerText
+        let innerText = el.innerText;
+        el.innerHTML = "";
+
+        // On crée une div pour englober les span
+        let textContainer = document.createElement("div");
+        // On lui ajoute la class "block"
+        textContainer.classList.add("block");
+
+        // On fait une boucle sur toutes les lettres des mots
+        for (let i = 0; i < innerText.length; i++){
+          let letter = innerText[i];
+          // On crée un span pour chaque lettre
+          let span = document.createElement("span");
+          span.innerText = letter.trim() === "" ? "\xa0" : letter;
+          // On ajoute la class "letter" + transition delay à chaque span
+          span.classList.add("letter");
+          span.style.transitionDelay = `${i * 0.03}s`;
+          // On attache les span à la div textContainer
+          textContainer.appendChild(span);
+        }
+        el.appendChild(textContainer);
+        el.appendChild(textContainer.cloneNode(true));
+      });
+
+      elements.forEach(el => {
+        el.addEventListener("mouseover", () => {
+          el.classList.remove("play");
+        });
+      });
+
+    </script>
+  </body>
+</html>
