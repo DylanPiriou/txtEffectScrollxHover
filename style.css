@@ -5,6 +5,30 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+html::-webkit-scrollbar{
+    display: none;
+}
+
+body{
+    background: rgb(235, 225, 207);
+    overflow: hidden;
+}
+
+.progress__bar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 1vh;
+    background: rgb(167, 137, 137);
+    z-index: 999;
+}
+
+.bar{
+    height: 100%;
+    background: rgb(156, 71, 71);
+}
+
 nav{
     width: 100%;
     height: 10vh;
@@ -52,20 +76,54 @@ section{
 
 section h2{
     text-align: center;
-    color: whitesmoke;
+    color: black;
     font-size: 3vw;
     max-width: 80%;
 }
 
-section:nth-child(1){
-    background: rgb(172, 152, 150);
-}
 section:nth-child(2){
     background: rgb(162, 182, 123);
 }
 section:nth-child(3){
     background: rgb(228, 209, 184);
 }
-section:nth-child(4){
-    background: rgb(181, 199, 146);
+.container{
+    height: 100vh;
+    width: 500%;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.pannel{
+    height: 100%;
+    flex: 1;
+}
+
+.pannel:nth-child(1){
+    background: green;
+}
+.pannel:nth-child(2){
+    background: yellow;
+}
+.pannel:nth-child(3){
+    background: orange;
+}
+.pannel:nth-child(4){
+    background: red;
+}
+.pannel:nth-child(5){
+    background: purple;
+}
+
+section:nth-child(5){
+    background: rgb(47, 48, 45);
+    height: 100vh;
+}
+
+.cube{
+    position: sticky;
+    top: 0;
+    width: 500px;
+    aspect-ratio: 1;
+    background: red;
 }

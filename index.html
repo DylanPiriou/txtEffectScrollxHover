@@ -7,6 +7,9 @@
     <title>Document</title>
   </head>
   <body>
+    <div class="progress__bar">
+      <div class="bar"></div>
+    </div>
     <nav>
       <div class="nav__links">
         <a href="">ABOUT</a>
@@ -19,23 +22,39 @@
     </section>
     <section>
       <h2 class="reveal-type">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam iusto
+        recusandae facere rerum non veritatis accusamus minus quae, ipsum beatae
+        officiis dolores labore sed, dicta voluptate voluptatibus consectetur
+        libero optio provident odio harum voluptas est exercitationem
+        architecto! Tempore, eveniet earum esse rem ab vitae, repudiandae quod
+        modi unde, facilis nulla!
       </h2>
     </section>
+    <div class="container">
+      <div class="pannel"></div>
+      <div class="pannel"></div>
+      <div class="pannel"></div>
+      <div class="pannel"></div>
+      <div class="pannel"></div>
+    </div>
     <section>
       <h2 class="reveal-type">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam iusto recusandae facere rerum non veritatis accusamus minus quae, ipsum beatae officiis dolores labore sed, dicta voluptate voluptatibus consectetur libero optio provident odio harum voluptas est exercitationem architecto! Tempore, eveniet earum esse rem ab vitae, repudiandae quod modi unde, facilis nulla!
-      </h2>
-    </section>
-    <section>
-      <h2 class="reveal-type">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+        DROP ME A LINE.<br />
+        pirioudylan@gmail.com
       </h2>
     </section>
 
     <script src="https://unpkg.com/split-type"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha384-d+vyQ0dYcymoP8ndq2hW7FGC50nqGdXUEgoOUGxbbkAJwZqL7h+jKN0GGgn9hFDS" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" integrity="sha384-poC0r6usQOX2Ayt/VGA+t81H6V3iN9L+Irz9iO8o+s0X20tLpzc9DOOtnKxhaQSE" crossorigin="anonymous"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
+      integrity="sha384-d+vyQ0dYcymoP8ndq2hW7FGC50nqGdXUEgoOUGxbbkAJwZqL7h+jKN0GGgn9hFDS"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"
+      integrity="sha384-poC0r6usQOX2Ayt/VGA+t81H6V3iN9L+Irz9iO8o+s0X20tLpzc9DOOtnKxhaQSE"
+      crossorigin="anonymous"
+    ></script>
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
 
     <script>
@@ -43,7 +62,7 @@
       const lenis = new Lenis();
 
       lenis.on("scroll", (e) => {
-        console.log(e);
+        // console.log(e);
       });
 
       function raf(time) {
@@ -55,29 +74,27 @@
 
       // GSAP
       gsap.registerPlugin(ScrollTrigger);
-      console.log(ScrollTrigger)
+      console.log(ScrollTrigger);
 
       const splitTypes = document.querySelectorAll("h2");
 
       splitTypes.forEach((char, i) => {
         const text = new SplitType(char, { types: "chars" });
         gsap.from(text.chars, {
-            scrollTrigger: {
-                trigger: char,
-                start: "top 80%",
-                end: "top 10%",
-                scrub: true,
-                markers: false,
-            },
-            opacity: 0.1,
-            stagger: 0.1
-        })
-
+          scrollTrigger: {
+            trigger: char,
+            start: "top 90%",
+            end: "top",
+            scrub: true,
+            markers: false,
+          },
+          opacity: 0.1,
+          stagger: .1,
+        });
       });
 
-
       let elements = document.querySelectorAll("a");
-      elements.forEach(el => {
+      elements.forEach((el) => {
         // On stock le contenu des elements dans la variable innerText
         let innerText = el.innerText;
         el.innerHTML = "";
@@ -88,7 +105,7 @@
         textContainer.classList.add("block");
 
         // On fait une boucle sur toutes les lettres des mots
-        for (let i = 0; i < innerText.length; i++){
+        for (let i = 0; i < innerText.length; i++) {
           let letter = innerText[i];
           // On crée un span pour chaque lettre
           let span = document.createElement("span");
@@ -103,12 +120,38 @@
         el.appendChild(textContainer.cloneNode(true));
       });
 
-      elements.forEach(el => {
+      elements.forEach((el) => {
         el.addEventListener("mouseover", () => {
           el.classList.remove("play");
         });
       });
 
+      gsap.registerPlugin(ScrollTrigger);
+
+      // On séléctionne tous les .pannel et on les met dans un array
+      let sections = gsap.utils.toArray(".pannel");
+
+      let scrollTween = gsap.to(sections, {
+        xPercent: -100 * (sections.length - 1), // -100, -200, -300, etc.
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".container",
+          pin: true, // Permet de donner un effet "sticky"
+          scrub: 1,
+          end: "+=5000",
+        },
+      });
+
+      // PROGRESS BAR
+      const progressBar = document.querySelector(".bar");
+
+      window.addEventListener("scroll", () => {
+        const totalHeight = window.innerHeight; // hauteur de la fenêtre
+        const fullHeight = document.documentElement.scrollHeight; // hauteur scroll
+        const scrolled = window.scrollY; // valeur du scroll
+        const progress = (scrolled / (fullHeight - totalHeight)) * 100;
+        progressBar.style.width = `${progress}%`;
+      });
     </script>
   </body>
 </html>
