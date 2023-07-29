@@ -10,6 +10,7 @@
     <div class="progress__bar">
       <div class="bar"></div>
     </div>
+    <div class="circle">A</div>
     <nav>
       <div class="nav__links">
         <a href="">ABOUT</a>
@@ -17,10 +18,15 @@
         <a href="">CONTACT</a>
       </div>
     </nav>
-    <section>
-      <h1>Scroll to begin your journey.</h1>
+    <section class="top">
+      <div class="bg"></div>
+      <h1>
+        <div class="first">LET'S DEVELOP</div>
+        <div class="second">COOL SHIT</div>
+        <div class="third">TOGETHER</div>
+      </h1>
     </section>
-    <section>
+    <section class="reveal-section">
       <h2 class="reveal-type">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam iusto
         recusandae facere rerum non veritatis accusamus minus quae, ipsum beatae
@@ -78,18 +84,19 @@
 
       const splitTypes = document.querySelectorAll("h2");
 
+      const revealSection = document.querySelector(".reveal-section")
       splitTypes.forEach((char, i) => {
         const text = new SplitType(char, { types: "chars" });
         gsap.from(text.chars, {
           scrollTrigger: {
-            trigger: char,
-            start: "top 90%",
-            end: "top",
+            trigger: revealSection,
+            start: "top 10%",
+            end: "bottom 70%",
             scrub: true,
             markers: false,
           },
           opacity: 0.1,
-          stagger: .1,
+          stagger: 0.1,
         });
       });
 
@@ -126,7 +133,56 @@
         });
       });
 
+      const topContainer = document.querySelector(".top");
+      const first = document.querySelector(".first");
+      const second = document.querySelector(".second");
+      const third = document.querySelector(".third");
+      const circle = document.querySelector(".circle");
       gsap.registerPlugin(ScrollTrigger);
+      document.addEventListener("DOMContentLoaded", function () {
+        const circle = document.querySelector(".circle");
+        const scrollWrapper =
+          document.scrollingElement || document.documentElement;
+        const rotationRange = 360; // The range of rotation in degrees
+
+        function rotateCircle() {
+          const scrollProgress =
+            scrollWrapper.scrollTop /
+            (scrollWrapper.scrollHeight - scrollWrapper.clientHeight);
+          const rotationAmount = scrollProgress * rotationRange;
+          gsap.to(circle, { rotation: rotationAmount });
+        }
+
+        // Attach the event listener to the scroll event
+        window.addEventListener("scroll", rotateCircle);
+      });
+      gsap.to(first, {
+        scrollTrigger: {
+          trigger: topContainer,
+          scrub: 0.1,
+          start: "top 10%",
+          end: "bottom",
+        },
+        xPercent: 10,
+      });
+      gsap.to(second, {
+        scrollTrigger: {
+          trigger: topContainer,
+          scrub: true,
+          start: "top 10%",
+          end: "bottom",
+        },
+        xPercent: -10,
+      });
+      gsap.to(third, {
+        scrollTrigger: {
+          trigger: topContainer,
+          scrub: true,
+          start: "top 10%",
+          end: "bottom",
+        },
+        xPercent: 10,
+      });
 
       // On séléctionne tous les .pannel et on les met dans un array
       let sections = gsap.utils.toArray(".pannel");
